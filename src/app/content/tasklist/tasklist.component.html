@@ -1,0 +1,82 @@
+<h2>Task List</h2>
+
+<div class="btns">
+  <button type="submit" class="btn btn-primary" (click)="filterCriteria = -1">
+    YesterdayTasks
+  </button>
+  <button type="submit" class="btn btn-primary" (click)="filterCriteria = 0">
+    TodayTasks
+  </button>
+  <button type="submit" class="btn btn-primary" (click)="filterCriteria = 1">
+    TomorrowTasks
+  </button>
+  <button type="submit" class="btn btn-primary" (click)="filterCriteria = 2">
+    AllTasks
+  </button>
+</div>
+
+<div class="taskcolor my-2">
+  <div class="y-task">
+    <!--y represent yesterday-->
+    <div class="color ycolor mr-2"></div>
+    <span>Yesterday-task</span>
+  </div>
+  <div class="td-task">
+    <!--td represent today-->
+    <div class="color tdcolor mr-2"></div>
+    <span>Today-task</span>
+  </div>
+  <div class="tm-task">
+    <!--tm represent tomorrow-->
+    <div class="color tmcolor mr-2"></div>
+    <span>Tomorrow-task</span>
+  </div>
+</div>
+
+<div class="table-responsive px-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr class="text-center">
+        <th>TaskId</th>
+        <th class="taskdate">Date</th>
+        <th>Task</th>
+        <th class="w-25">Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *appCustomStructural [ngTemplateOutlet]="tasktable">
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #tasktable>
+  <tr
+    [appBgcolor]="task"
+    *ngFor="let task of DisplayTask | custom: filterCriteria; let index = index"
+  >
+    <td>{{ task.taskId }}</td>
+    <td>{{ task.date | date: "MM-dd-yyyy" }}</td>
+    <td>{{ task.task }}</td>
+    <td>{{ task.taskstatus ? "Completed" : "Open" }}</td>
+    <td>
+      <form>
+        <div class="form-check-inline">
+          <label class="form-check-label">
+            <input
+              type="checkbox"
+              class="form-check-input m-1"
+              [(ngModel)]="task.taskstatus"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="checkBoxValue($event, index)"
+            />Completed
+          </label>
+        </div>
+        <a (click)="deleteTask(task.taskId)"
+          ><fa-icon [icon]="faTrash" class="ml-1"></fa-icon
+        ></a>
+      </form>
+    </td>
+  </tr>
+</ng-template>

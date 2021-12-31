@@ -1,0 +1,50 @@
+<h2>Add Task</h2>
+<div class="form">
+  <form #addtaskform="ngForm" (ngSubmit)="addTask(addtaskform)">
+    <div class="form-group mx-3">
+      <label for="task" [style.font-weight]="'bolder'" class="mb-3"
+        >Task:</label
+      >
+      <input
+        type="text"
+        id="task"
+        class="form-control"
+        placeholder="Enter a task to add in a list"
+        [(ngModel)]="taskvalue"
+        name="taskname"
+        #taskname="ngModel"
+        required
+      />
+      <small
+        *ngIf="addtaskform.submitted"
+        [ngStyle]="{ color: 'red', 'font-weight': 'bolder' }"
+      >
+        <span *ngIf="taskname.hasError('required')">
+          This field is mandatory
+        </span>
+      </small>
+      <input
+        type="date"
+        class="form-control mt-3"
+        [(ngModel)]="taskdate"
+        name="taskDate"
+        #taskDate="ngModel"
+        required
+      />
+      <small
+        *ngIf="addtaskform.submitted"
+        [ngStyle]="{ color: 'red', 'font-weight': 'bolder' }"
+      >
+        <span *ngIf="taskDate.hasError('required')">
+          This field is mandatory
+        </span>
+      </small>
+      <button type="submit" class="btn btn-success mt-3 mr-3">Add Task</button>
+      <a [routerLink]="['../content/tasklist']">
+        <button type="submit" class="btn btn-success mt-3">
+          Go to TaskList
+        </button>
+      </a>
+    </div>
+  </form>
+</div>
